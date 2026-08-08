@@ -2,13 +2,16 @@
 @section('title', $student->user->full_name)
 @section('content')
     <div class="card" style="margin-bottom:20px;">
-        <div class="card-body">
-            <h2 style="margin-top:0;">{{ $student->user->full_name }}</h2>
-            <p style="color:var(--ink-soft); margin-bottom:0;">
-                Student # {{ $student->student_number }}
-                @if ($student->department) · {{ $student->department->department_name }} @endif
-                @if ($student->year_level) · {{ $student->year_level }} @endif
-            </p>
+        <div class="card-body" style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+                <h2 style="margin-top:0;">{{ $student->user->full_name }}</h2>
+                <p style="color:var(--ink-soft); margin-bottom:0;">
+                    Student # {{ $student->student_number }}
+                    @if ($student->department) · {{ $student->department->department_name }} @endif
+                    @if ($student->year_level) · {{ $student->year_level }} @endif
+                </p>
+            </div>
+            <a href="{{ route('parent.children.report-card.index', $student) }}" class="btn btn-ghost btn-sm">Report cards</a>
         </div>
     </div>
 

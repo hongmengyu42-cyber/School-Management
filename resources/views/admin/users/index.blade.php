@@ -65,6 +65,9 @@
                                     <button type="submit" class="btn btn-ghost btn-sm">Approve</button>
                                 </form>
                             @endif
+                            @if ($user->role === 'Student' && $user->student)
+                                <a href="{{ route('admin.students.report-card.index', $user->student) }}" class="btn btn-ghost btn-sm">Report cards</a>
+                            @endif
                             <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-ghost btn-sm">Edit</a>
                             <form method="POST" action="{{ route('admin.users.destroy', $user) }}" style="display:inline;" onsubmit="return confirm('Delete this user?');">
                                 @csrf @method('DELETE')

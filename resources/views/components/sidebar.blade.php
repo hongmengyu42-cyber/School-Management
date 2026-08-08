@@ -43,12 +43,14 @@
     @elseif ($user?->isStudent())
         <div class="nav-group">
             <div class="nav-label">Overview</div>
-            <a href="{{ route('student.dashboard') }}" class="nav-link active">Dashboard</a>
+            <a href="{{ route('student.dashboard') }}" class="nav-link {{ request()->routeIs('student.dashboard') ? 'active' : '' }}">Dashboard</a>
+            <a href="{{ route('student.grades.index') }}" class="nav-link {{ request()->routeIs('student.grades.*') ? 'active' : '' }}">Grades</a>
+            <a href="{{ route('student.report-card.index') }}" class="nav-link {{ request()->routeIs('student.report-card.*') ? 'active' : '' }}">Report Cards</a>
         </div>
     @elseif ($user?->isParent())
         <div class="nav-group">
             <div class="nav-label">Overview</div>
-            <a href="{{ route('parent.dashboard') }}" class="nav-link active">Dashboard</a>
+            <a href="{{ route('parent.dashboard') }}" class="nav-link {{ request()->routeIs('parent.dashboard') ? 'active' : '' }}">Dashboard</a>
         </div>
     @endif
 

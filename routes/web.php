@@ -1,4 +1,3 @@
-
 <?php
 // use App\Models\User;
 
@@ -8,6 +7,7 @@ use App\Http\Controllers\Admin\BulkImportController;
 use App\Http\Controllers\Admin\CascadingFilterController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\ParentLinkController;
+use App\Http\Controllers\Admin\ReportCardController as AdminReportCardController;
 use App\Http\Controllers\Admin\SemesterController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\SystemSettingController;
@@ -33,8 +33,10 @@ use App\Http\Controllers\Student\GradeController as StudentGradeController;
 use App\Http\Controllers\Student\MessageController as StudentMessageController;
 use App\Http\Controllers\Student\QuizAttemptController;
 use App\Http\Controllers\Student\QuizController as StudentQuizController;
+use App\Http\Controllers\Student\ReportCardController as StudentReportCardController;
 use App\Http\Controllers\Student\SubjectController as StudentSubjectController;
 use App\Http\Controllers\Parent\DashboardController as ParentDashboardController;
+use App\Http\Controllers\Parent\ReportCardController as ParentReportCardController;
 use App\Http\Controllers\Parent\StudentController as ParentStudentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TwoFactorSetupController;
@@ -128,6 +130,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/grades', [StudentGradeController::class, 'index'])->name('grades.index');
         Route::get('/attendance', [StudentAttendanceController::class, 'index'])->name('attendance.index');
 
+        Route::get('/report-card', [StudentReportCardController::class, 'index'])->name('report-card.index');
+        Route::get('/report-card/{semester}', [StudentReportCardController::class, 'show'])->name('report-card.show');
+
         Route::prefix('subjects/{subject}')->name('subjects.')->group(function () {
             Route::get('assignments', [StudentAssignmentController::class, 'index'])->name('assignments.index');
             Route::get('assignments/{assignment}', [StudentAssignmentController::class, 'show'])->name('assignments.show');
@@ -148,6 +153,9 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('role:Parent')->prefix('parent')->name('parent.')->group(function () {
         Route::get('/dashboard', ParentDashboardController::class)->name('dashboard');
         Route::get('/children/{student}', [ParentStudentController::class, 'show'])->name('children.show');
+
+        Route::get('/children/{student}/report-card', [ParentReportCardController::class, 'index'])->name('children.report-card.index');
+        Route::get('/children/{student}/report-card/{semester}', [ParentReportCardController::class, 'show'])->name('children.report-card.show');
     });
 
     Route::middleware('role:Admin')->prefix('admin')->name('admin.')->group(function () {
@@ -160,6 +168,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('subjects', SubjectController::class)->except('show');
         Route::resource('users', UserController::class)->except('show');
+
+        Route::get('students/{student}/report-card', [AdminReportCardController::class, 'index'])->name('students.report-card.index');
+        Route::get('students/{student}/report-card/{semester}', [AdminReportCardController::class, 'show'])->name('students.report-card.show');
 
         Route::post('approve-users/{user}', UserApprovalController::class)->name('users.approve');
         Route::post('bulk-import-users', BulkImportController::class)->name('users.bulk-import');
